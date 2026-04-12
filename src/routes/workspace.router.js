@@ -7,13 +7,33 @@ Para saber que espacios de trabajo traer NECESITAMOS EL ID DEL USUARIO
 import {Router} from 'express'
 import workspaceController from '../controllers/workspace.controller.js'
 import authMiddleware from '../middlewares/authMiddleware.js'
+import verifyMemberWorkspaceRoleMiddleware from '../middlewares/verifyMemberWorkspaceMiddleware.js'
+import channelRouter from './channel.router.js'
 
 const workspaceRouter = Router()
-
+workspaceRouter.use(authMiddleware)
 workspaceRouter.get(
     '/',
-    authMiddleware,
     workspaceController.getWorkspaces
 )
+
+workspaceRouter.post(
+    '/',
+    workspaceController.create
+)
+
+workspaceRouter.get(
+    '/:workspace_id',
+    
+    verifyMemberWorkspaceRoleMiddleware([]),
+    workspaceController.getById
+)
+
+
+workspaceRouter.use(
+    '/:workspace_id/channels', 
+    channelRouter
+)
+
 
 export default workspaceRouter
