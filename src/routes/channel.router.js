@@ -8,7 +8,6 @@ const channelRouter = express.Router({mergeParams: true})
 
 channelRouter.use(verifyWorkspaceMiddleware)
 
-
 channelRouter.post(
     '/', 
     verifyMemberWorkspaceRoleMiddleware(

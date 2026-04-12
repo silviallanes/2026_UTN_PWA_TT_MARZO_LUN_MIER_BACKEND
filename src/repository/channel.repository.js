@@ -1,8 +1,6 @@
 import ChannelDTO from "../dto/channel.dto.js"
 import ChannelModel from "../models/channel.model.js"
 
-
-
 class ChannelRepository {
     async create(workspace_id, name, description) {
         const channel = await ChannelModel.create({

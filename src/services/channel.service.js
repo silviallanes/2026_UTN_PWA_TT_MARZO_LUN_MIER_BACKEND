@@ -1,7 +1,5 @@
-
 import ServerError from "../helpers/error.helper.js"
 import channelRepository from "../repository/channel.repository.js"
-
 
 class ChannelService {
     async create(workspace_id, name, description) {
@@ -45,7 +43,7 @@ class ChannelService {
             throw new ServerError("Faltan campos obligatorios", 400)
         }
 
-        const channel = await channelRepository.delete( channel_id)
+        const channel = await channelRepository.delete(channel_id)
         return channel
     }
 }

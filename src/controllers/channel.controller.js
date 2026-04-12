@@ -49,6 +49,7 @@ class ChannelController {
         try {
             const workspace = req.workspace
             const channels = await channelService.getAll(workspace._id)
+            console.log(channels)
             
             res.status(200).json(
                 {
@@ -60,6 +61,8 @@ class ChannelController {
                     }
                 }
             )
+            
+
         } catch (error) {
             //Errores esperables en el sistema
             if (error instanceof ServerError) {
