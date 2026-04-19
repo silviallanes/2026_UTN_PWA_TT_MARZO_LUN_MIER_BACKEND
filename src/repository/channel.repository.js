@@ -16,7 +16,7 @@ class ChannelRepository {
     }
 
     async getAll(workspace_id) {
-        const channels = await ChannelModel.find({ fk_id_workspace: workspace_id, is_active: true })
+        const channels = await ChannelModel.find({ fk_id_workspace: workspace_id })
 
         // Normalizo los canales
         const normalizedChannels = channels.map(channel => {

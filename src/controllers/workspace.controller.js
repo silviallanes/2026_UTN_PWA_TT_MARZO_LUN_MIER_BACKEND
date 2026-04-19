@@ -85,8 +85,8 @@ class WorkspaceController {
         }
     }
 
-     async getById(req, res) {
-        const { workspace_id } = req.params
+     async getById(request, response) {
+        const { workspace_id } = request.params
         try {
             const workspace = await workspaceService.getOne(workspace_id)
             const members = await memberWorkspaceService.getMemberList(workspace_id)

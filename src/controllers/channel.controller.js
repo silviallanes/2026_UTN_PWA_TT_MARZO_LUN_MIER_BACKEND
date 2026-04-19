@@ -9,7 +9,7 @@ class ChannelController {
             const workspace = req.workspace
             const { name, description } = req.body
 
-            const channel = await channelService.create(workspace._id, name, description)
+            const channel_created = await channelService.create(workspace._id, name, description)
             
             res.status(201).json(
                 {
@@ -17,7 +17,7 @@ class ChannelController {
                     status: 201,
                     message: 'Canal creado exitosamente',
                     data: {
-                        channel
+                        channel_created
                     }
                 }
             )
@@ -49,8 +49,7 @@ class ChannelController {
         try {
             const workspace = req.workspace
             const channels = await channelService.getAll(workspace._id)
-            console.log(channels)
-            
+                      
             res.status(200).json(
                 {
                     ok: true,
