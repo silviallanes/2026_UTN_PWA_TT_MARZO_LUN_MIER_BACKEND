@@ -4,7 +4,7 @@ import memberWorkspaceService from "../services/memberWorkspace.service.js"
 import workspaceService from "../services/workspace.service.js"
 
 class WorkspaceController {
-    async getWorkspaces(request, response) {
+    async getWorkspaces(request, response, next) {
         try {
             //Cliente consultante
             const user = request.user
@@ -23,30 +23,11 @@ class WorkspaceController {
             )
         }
         catch (error) {
-            //Errores esperables en el sistema
-            if (error instanceof ServerError) {
-                return res.status(error.status).json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
-            }
-            else {
-                console.error('Error inesperado en el registro', error)
-                return res.status(500).json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "Internal server error"
-                    }
-                )
-            }
+            next(error)
         }
     }
 
-    async create(request, response) {
+    async create(request, response, next) {
         try {
             const { title, description } = request.body
             const user = request.user
@@ -63,34 +44,16 @@ class WorkspaceController {
                 message: "Espacio de trabajo creado con exito"
             })
         } catch (error) {
-            if (error instanceof ServerError) {
-                return response.status(error.status).json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
-            }
-            else {
-                console.error('Error inesperado en el registro', error)
-                return response.status(500).json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "Internal server error"
-                    }
-                )
-            }
+            next(error)
         }
     }
 
-     async getById(request, response) {
+     async getById(request, response, next) {
         const { workspace_id } = request.params
         try {
             const workspace = await workspaceService.getOne(workspace_id)
             const members = await memberWorkspaceService.getMemberList(workspace_id)
-            res.json(
+            response.json(
                 {
                     ok: true,
                     status: 200,
@@ -102,25 +65,7 @@ class WorkspaceController {
                 }
             )
         } catch (error) {
-            if (error instanceof ServerError) {
-                return res.status(error.status).json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
-            }
-            else {
-                console.error('Error inesperado en el registro', error)
-                return res.status(500).json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "Internal server error"
-                    }
-                )
-            }
+            next(error)
         }
     }
 }

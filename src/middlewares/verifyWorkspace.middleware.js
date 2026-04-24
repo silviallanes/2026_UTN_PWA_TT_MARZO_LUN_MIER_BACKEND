@@ -24,25 +24,7 @@ async function verifyWorkspaceMiddleware(req, res, next) {
         req.workspace = workspace
         next()
     } catch (error) {
-        if (error instanceof ServerError) {
-            return res.status(error.status).json(
-                {
-                    ok: false,
-                    status: error.status,
-                    message: error.message
-                }
-            )
-        }
-        else {
-            console.error('Error inesperado en el registro', error)
-            return res.status(500).json(
-                {
-                    ok: false,
-                    status: 500,
-                    message: "Internal server error"
-                }
-            )
-        }
+        next(error)
     }
 }
 

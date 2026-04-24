@@ -7,25 +7,43 @@ Crear la class WorkspaceRepository con los sig metodos:
 */
 
 import WorkspaceModel from "../models/workspace.model.js";
+import ServerError from "../helpers/error.helper.js";
+
 class WorkspaceRepository {
     async create(title, description, url_image, active) {
-        const workspace = await WorkspaceModel.create({
-            title: title,
-            description: description,
-            url_image,
-            active
-        })
-        return workspace;
+        try {
+            const workspace = await WorkspaceModel.create({
+                title: title,
+                description: description,
+                url_image,
+                active
+            })
+            return workspace;
+        } catch (error) {
+            throw new ServerError('Error al crear el espacio de trabajo', 500)
+        }
     };
     async deleteById(workspace_id) {
-        await WorkspaceModel.findByIdAndDelete(workspace_id);
+        try {
+            await WorkspaceModel.findByIdAndDelete(workspace_id);
+        } catch (error) {
+            throw new ServerError('Error al eliminar el espacio de trabajo', 500)
+        }
     };
     async getById(workspace_id) {
-        return await WorkspaceModel.findById(workspace_id)
+        try {
+            return await WorkspaceModel.findById(workspace_id)
+        } catch (error) {
+            throw new ServerError('Error al obtener el espacio de trabajo', 500)
+        }
     };
     async updateById(workspace_id, new_workspace_props) {
-        const new_user = WorkspaceModel.findByIdAndUpdate(workspace_id, new_workspace_props, { new: true })
-        return new_user;
+        try {
+            const new_user = WorkspaceModel.findByIdAndUpdate(workspace_id, new_workspace_props, { new: true })
+            return new_user;
+        } catch (error) {
+            throw new ServerError('Error al actualizar el espacio de trabajo', 500)
+        }
     };
 }
 const workspaceRepository = new WorkspaceRepository()
